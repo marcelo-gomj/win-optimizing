@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeDevCommand": "bun run dev",
-    "beforeBuildCommand": "bun run build",
+    "beforeDevCommand": "pnpm run dev",
+    "beforeBuildCommand": "pnpm run build",
     "devPath": "http://localhost:1420",
     "distDir": "../dist",
     "withGlobalTauri": false
@@ -21,7 +21,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "tauri.windows.conf.json",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -39,7 +39,9 @@
         "resizable": true,
         "title": "win-optimizing",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "maxHeight": 800,
+        "maxWidth": 600
       }
     ]
   }

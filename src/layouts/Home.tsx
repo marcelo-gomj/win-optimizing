@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { Settings } from "../icons/Settings";
+import { RouterContext } from "../context/router";
 
 export function Home(){
+	const { setPath } = useContext(RouterContext);
+
 	return (
 		<div className="h-full">
 			<div className="flex items-center justify-center w-full h-[80%]">
@@ -10,7 +14,12 @@ export function Home(){
 			</div>
 			
 			<div className="flex justify-center items-center h-[20%] text-[1.2rem]">
-				<div className="flex items-center justify-around gap-5 pl-6 px-8 py-3 rounded-full bg-base-200 hover:bg-base-400 duration-100 transition-[background] cursor-pointer">
+				<div 
+					className="flex items-center justify-around gap-5 pl-6 px-8 py-3 rounded-full bg-base-200 hover:bg-base-400 duration-100 transition-[background] cursor-pointer"
+					onClick={() => {
+						setPath("config")
+					}}
+				>
 					<Settings />
 					Configurar Otimizacão
 				</div>

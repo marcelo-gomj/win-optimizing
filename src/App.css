@@ -11,3 +11,39 @@
 body {
   color: white;
 }
+
+/* Estilizando a barra de rolagem para navegadores Webkit */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 100%;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(8,8,8);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(35,35,35);
+}
+
+::-webkit-scrollbar-button {
+  background-color: rgb(8,8,8);  
+}
+
+/* Estilizando a barra de rolagem para o Firefox */
+scrollbar {
+  width: 8px;
+}
+
+scrollbar-track {
+  background-color: black;
+}
+
+scrollbar-thumb {
+  background-color: red;
+}
+
+scrollbar-button {
+  background-color: yellow;
+}
+

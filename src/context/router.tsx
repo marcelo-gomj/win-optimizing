@@ -1,26 +1,33 @@
-import { ReactNode, createContext, useState } from "react";
+import { createContext, useState } from "react";
 import { Home } from "../layouts/Home";
+import { Configs } from "../layouts/Configs";
 
 // type RouterProviderProps = {
 // 	children: ReactNode
 // }
-
 type pathProps = {
-	setPath: (path: ReactNode) => void
+	setPath: (path: string) => void;
 }
 
 export const RouterContext = createContext({} as pathProps);
 
 export function RouterLayout(){
-	const [Route, setRoute] = useState(null as any);
+	const [route, setRoute] = useState("default");
 
-	function setPath(component: ReactNode){
-		setRoute(component)
+	const paths : Record<string, any> = {
+		"default" : <Home />,
+		"config" : <Configs />
+	}
+
+	function setPath(path: string){
+		setRoute(path)
 	}
 
 	return (
-		<RouterContext.Provider value={{ setPath }}> 
-			{Route ? <Route /> : <Home />}
+		<RouterContext.Provider 
+			value={{ setPath }}
+		> 
+			{paths[route]}
 		</RouterContext.Provider>
 	)
 }
