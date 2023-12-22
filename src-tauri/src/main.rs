@@ -1,13 +1,26 @@
 
+use serde::Serialize;
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+// #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use tauri::{command, generate_context, generate_handler};
 use serde;
-
 use std::process::Command;
 use windows_service::service::{ServiceAccess, ServiceState::Running};
 use windows_service::service_manager::{ServiceManager, ServiceManagerAccess};
+use sysinfo::{ System, SystemExt, ProcessExt };
 
+#[derive(Serialize, Debug)]
+struct ProcessProps {
+  name: String,
+  pid: String,
+  path: String,
+  exec_path: String,
+  status: String,
+  memory_used : u64,
+  cpu_used: f32,
+  parent: String,
+  // cpu: u32
+}
 
 #[derive(serde::Serialize, Debug)]
 struct ServiceProperties {
@@ -25,24 +38,20 @@ fn list_services_active() -> Vec<ServiceProperties>{
 }
 
 #[command]
-fn teste() -> String {
-  "Pescar todo quer pescar".to_string()
+fn list_process_fn() -> Vec<ProcessProps> {
+  list_process()
 }
 
 fn main() {
   tauri::Builder::default()
     .invoke_handler(generate_handler![
       list_services_active, 
-      teste
+      list_process_fn
     ])
     .run(generate_context!())
     .expect("error while running tauri application");
 }
 
-// fn main(){
-//   list_service();
-
-// }
 
 fn list_service() -> Vec<ServiceProperties> {
   let output = Command::new("sc")
@@ -91,4 +100,32 @@ fn list_service() -> Vec<ServiceProperties> {
   }
 
   list_services
+}
+
+
+
+fn list_process() -> Vec<ProcessProps> {
+  let system_info = System::new_all();
+  let mut list_process : Vec<ProcessProps> = vec![];
+
+  for (_pid, process) in system_info.processes() {
+    let parent = match process.parent() {
+        Some(e) => e.to_string(),
+        None => "".to_string() 
+    };
+    
+    list_process.push(
+      ProcessProps {
+        name: process.name().to_string(),
+        pid: process.pid().to_string(), 
+        path : process.root().display().to_string(),
+        exec_path: process.exe().display().to_string(),
+        status : process.status().to_string(),
+        parent,
+        memory_used: process.memory(),
+        cpu_used : process.cpu_usage(),
+    });
+  }
+
+  list_process
 }

@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { RouterContext } from "../context/router";
 import { ConfigContext } from "../context/BoosterConfig";
 import { ListServices } from "../SectionsConfig/ListServices";
@@ -17,9 +17,9 @@ type SectionsProps = {
 const categories = [
   "services",
   "process",
-  "system",
   "tasks",
-  "otimization",
+  // "system",
+  // "otimization",
 ]
 
 // type ServicesListProps = [] | ServicesProps[];;
@@ -97,9 +97,8 @@ export function Configs(){
   const section = sections[categoryActive];
 
   return (
-    <div className="grid h-full grid-rows-[12%_78%_10%]">
-      <header className="flex px-6 py-4">
-
+    <div className="grid h-full grid-rows-[10%_80%_10%]">
+      <header className="flex items-center px-6">
         {
          categories.map((category) => {
             return (
@@ -113,30 +112,32 @@ export function Configs(){
           })
         }
       </header>
-
-      <ul className="grid px-4 py-0 overflow-y-scroll h-full">
+        
+      <section
+        className="relative px-4"
+      >
         {section.ListComponents ?  
           <section.ListComponents 
             list={section.list}
             optimizeItem={handleToggleService(section.list, section.handleList as any)}
           /> : null 
         }
-      </ul>
+      </section>
 
       <footer className="flex px-6 justify-between items-center">
-
         <div className="flex gap-8">
           <div
             onClick={() => setPath('default')} 
-            className="flex items-center cursor-pointer  px-16 rounded-full bg-base-500 py-1"
+            className="flex items-center cursor-pointer px-16 py-1.5 rounded-full bg-base-500 active:bg-base-600"
           >Volar</div>
-          <div className="flex items-center cursor-pointer  px-16 rounded-full bg-green-600 py-1"
+          <div className="flex items-center cursor-pointer px-16 py-1.5 rounded-full bg-green-600 active:bg-green-700"
             onClick={() => handleButtonSaveConfig()}
           >Salvar</div>
           
         </div>
-        <div className="flex items-center cursor-pointer rounded-full py-1"
-            onClick={() => setOptimizeServices([])}
+
+        <div className="flex items-center cursor-pointer py-1.5 rounded-full"
+            onClick={() => { if(section.handleList) section.handleList([]) }}
           >
             Limpar selecionados
           

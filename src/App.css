@@ -6,6 +6,8 @@
 * {
   font-family: "Roboto Condensed";
   user-select: none;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -14,7 +16,7 @@ body {
 
 /* Estilizando a barra de rolagem para navegadores Webkit */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
   height: 100%;
 }
 
@@ -28,11 +30,6 @@ body {
 
 ::-webkit-scrollbar-button {
   background-color: rgb(8,8,8);  
-}
-
-/* Estilizando a barra de rolagem para o Firefox */
-scrollbar {
-  width: 8px;
 }
 
 scrollbar-track {
